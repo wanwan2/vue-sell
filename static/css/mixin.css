@@ -1,0 +1,13 @@
+.border-1px {
+  position: relative;
+}
+
+.border-1px:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  content: " ";
+}
