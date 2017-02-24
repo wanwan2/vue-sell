@@ -5,6 +5,9 @@ import goods from 'components/goods/goods'
 import ratings from 'components/ratings/ratings'
 import seller from 'components/seller/seller'
 
+import 'static/css/icon.less'
+import 'static/css/base.less'
+
 Vue.use(VueRouter)
 
 var app = Vue.extend(App)

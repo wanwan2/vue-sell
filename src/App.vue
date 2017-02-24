@@ -24,30 +24,24 @@ export default {
   }
 }
 </script>
-<style>
-  @import "../static/css/mixin.css"; 
+<style lang="less" style="text/less">
+@import "static/css/mixin.less";
 .tab {
   display: flex;
   width: 100%;
   line-height: 40px;
-}
-
-.tab .tab-item {
-  flex: 1;
-  text-align: center;
-}
-
-.tab .tab-item > a{
-  display: block;
-  font-size: 14px;
-  color: rgb(77,85,93);
-}
-
-.tab .tab-item > a.active{
-  color: rgb(240,20,20);
-}
-
-.border-1px:after{
-  border-bottom-color: rgba(7,17,27,.1);
+  .border-1px(rgba(7, 17, 27, .1));
+  .tab-item {
+    flex: 1;
+    text-align: center;
+    & > a {
+      display: block;
+      font-size: 14px;
+      color: rgb(77, 85, 93);
+    }
+    .active {
+      color: rgb(240, 20, 20);
+    }
+  }
 }
 </style>
