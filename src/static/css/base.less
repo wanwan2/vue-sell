@@ -1,3 +1,322 @@
+/* 字体样式 */
+
+* {
+  font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+
+/* 字体粗细 */
+
+.ultralight {
+  font-weight: 100;
+}
+
+.thin {
+  font-weight: 200;
+}
+
+
+/* 黑体-简 细 */
+
+.light {
+  font-weight: 300;
+}
+
+
+/* 微软雅黑 中 */
+
+.regular {
+  font-weight: 400;
+}
+
+
+/* 黑体-简 中 */
+
+.medium {
+  font-weight: 500;
+}
+
+.semibold {
+  font-weight: 600;
+}
+
+
+/* 微软雅黑 粗 */
+
+.bold {
+  font-weight: 700;
+}
+
+.heavy {
+  font-weight: 900;
+}
+
+
+/* 自动断行 */
+
+.break {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+
+/* 字体超出隐藏 */
+
+.over {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* 文字位置 */
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+
+/* 清除边距 */
+
+.clear-margin {
+  margin: 0;
+}
+
+.clear-padding {
+  padding: 0;
+}
+
+
+/* 浮动 */
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+
+/* 清浮动 */
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  _height: 1%;
+}
+
+.clear {
+  clear: both;
+}
+
+
+/* 块元素和行内元素转换 */
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.table {
+  display: table;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.none {
+  display: none;
+}
+
+
+/* 可见不可见 */
+
+.hide {
+  visibility: hidden;
+}
+
+
+/* 添加边距 */
+
+.add-margin(...) {
+  margin: @arguments;
+}
+
+.add-padding(...) {
+  padding: @arguments;
+}
+
+
+/* 宽度100% */
+
+.fluid {
+  width: 100%;
+}
+
+
+/* 常用兼容简写 */
+
+
+/* 圆角 */
+
+.radius(...) {
+  border-radius: @arguments;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+}
+
+
+/* 阴影 */
+
+.shadow(...) {
+  box-shadow: @arguments;
+}
+
+
+/* 圆图 */
+
+.circle {
+  .radius(50%);
+}
+
+
+/* 转换 */
+
+
+/* 平面移动 */
+
+.translate(@trlx, @trly) {
+  -webkit-transform: translate(@trlx, @trly);
+  -moz-transform: translate(@trlx, @trly);
+  -ms-transform: translate(@trlx, @trly);
+  -o-transform: translate(@trlx, @trly);
+  transform: translate(@trlx, @trly);
+}
+
+// 居中
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  .translate(-50%, -50%);
+}
+
+
+/* 2d旋转 */
+
+.rotate(@deg) {
+  -webkit-transform: rotate(@deg);
+  -moz-transform: rotate(@deg);
+  -ms-transform: rotate(@deg);
+  -o-transform: rotate(@deg);
+  transform: rotate(@deg);
+}
+
+
+/* 3d旋转 */
+
+.skew(@degx, @degy) {
+  -webkit-transform: scale(@degx, @degy);
+  -moz-transform: scale(@degx, @degy);
+  -ms-transform: scale(@degx, @degy);
+  -o-transform: scale(@degx, @degy);
+  transform: scale(@degx, @degy);
+}
+
+
+/* 元素拉伸 倍数*/
+
+.scale(@scalex, @scaley) {
+  -webkit-transform: scale(@scalex, @scaley);
+  -moz-transform: scale(@scalex, @scaley);
+  -ms-transform: scale(@scalex, @scaley);
+  -o-transform: scale(@scalex, @scaley);
+  transform: scale(@scalex, @scaley);
+}
+
+
+/* 过渡 */
+
+.transition(@transition) {
+  transition: @transition;
+  -moz-transition: @transition;
+  /* Firefox 4 */
+  -webkit-transition: @transition;
+  /* Safari 和 Chrome */
+  -o-transition: @transition;
+  /* Opera */
+}
+
+
+/* 绑定动画 */
+
+.animation(@animation) {
+  animation: @animation;
+  -moz-animation: @animation;
+  /* Firefox */
+  -webkit-animation: @animation;
+  /* Safari 和 Chrome */
+  -o-animation: @animation;
+}
+
+
+/* 多列布局 */
+
+
+/* 列数 */
+
+.column(@column) {
+  -moz-column-count: @column;
+  /* Firefox */
+  -webkit-column-count: @column;
+  /* Safari 和 Chrome */
+  column-count: @column;
+}
+
+
+/* 列间距 */
+
+.gap(@gap) {
+  -moz-column-gap: @gap;
+  /* Firefox */
+  -webkit-column-gap: @gap;
+  /* Safari 和 Chrome */
+  column-gap: @gap;
+}
+
+
+/* 规则 */
+
+.rule(@rule-color, @rule-style, @rule-width) {
+  -moz-column-rule: @arguments;
+  /* Firefox */
+  -webkit-column-rule: @arguments;
+  /* Safari and Chrome */
+  column-rule: @arguments;
+}
+
 @media (-webkit-min-device-pixel-ratio:1.5),
 (min-device-pixel-ratio:1.5) {
   .border-1px {
