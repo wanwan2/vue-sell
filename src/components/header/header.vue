@@ -15,15 +15,30 @@
           <span class="text thin">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div v-if="seller.supports" class="support-count thin">
+      <div v-if="seller.supports" class="support-count thin" @click="showDetail()">
         <span class="count">{{seller.supports.length}}个</span>
         <span class="icon-keyboard_arrow_right"></span>
       </div>
     </div>
-    <div class="bulletin-wrapper">
-      <span class="bulletin-title"></span>
-      <span class="bulletin-text">{{seller.bulletin}}</span>
+    <div class="bulletin-wrapper" @click="showDetail()">
+      <span class="bulletin-title inline-block"></span><span class="bulletin-text  inline-block">{{seller.bulletin}}</span>
       <span class="icon-keyboard_arrow_right"></span>
+    </div>
+    <div class="bg">
+      <img :src="seller.avatar" alt="background" width="100%">
+    </div>
+    <div class="detail" v-show="detailShow">
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main">
+        <h1 class="name bold">{{seller.name}}</h1>
+          <p class="">{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+          <p>{{seller.bulletin}}</p>
+        </div>
+      </div>
+      <div class="detail-close">
+        <span class="icon-close"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +49,16 @@ export default {
       type: Object
     }
   },
+  data() {
+    return {
+      detailShow: false
+    }
+  },
+  methods: {
+    showDetail() {
+      this.detailShow = true
+    }
+  },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   }
@@ -42,10 +67,9 @@ export default {
 <style lang="less" style="text/less">
 @import "../../static/css/index.less";
 .header {
-  background-color: #eee;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(7, 17, 27, .5);
   color: #fff;
   font-size: 0;
   .content-wrapper {
@@ -127,17 +151,72 @@ export default {
     }
   }
   .bulletin-wrapper {
-    padding: 0 12px;
+    position: relative;
+    padding: 0 22px 0 12px;
     line-height: 28px;
-    .over;
-    .bulletin-title{
+    background-color: rgba(7, 17, 27, .2);
+    .bulletin-title {
+      margin-top: 8px;
+      margin-right: 4px;
       width: 22px;
       height: 12px;
+      vertical-align: top;
       .bg-images('../../components/header/bulletin');
       background-size: 22px 12px;
     }
+    .bulletin-text,
+    .icon-keyboard_arrow_right {
+      vertical-align: top;
+      font-size: 10px;
+    }
     .bulletin-text {
-      font-size: 12px;
+      width: 90%;
+      .over;
+    }
+    .icon-keyboard_arrow_right {
+      position: absolute;
+      right: 12px;
+      top: 8px;
+    }
+  }
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    filter: blur(10px);
+  }
+  .detail {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(7, 17, 27, .8);
+    .detail-wrapper{
+      min-height: 100%;
+      .detail-main{
+        padding-top: 64px;
+        padding-bottom: 64px;
+        font-size: 12px;
+        .name{
+          text-align: center;
+          font-size: 16px;
+          line-height: 16px;
+        }
+      }
+    }
+    .detail-close{
+      position: relative;
+      margin: -64px auto 0;
+      width: 32px;
+      height: 32px;
+      font-size: 32px;
     }
   }
 }
