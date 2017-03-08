@@ -43,7 +43,7 @@ export default {
 }
 </script>
 <style lang="less" style="text/less">
-@import "../../static/css/index.less";
+@import (reference) "../../static/css/index.less";
 .star {
   font-size: 0;
   &.star-48 {

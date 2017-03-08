@@ -10,7 +10,7 @@
         <div class="description thin">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
-        <div class="supports" v-if="seller.supports">
+        <div class="support-item" v-if="seller.supports">
           <span class="icon inline-block" :class="classMap[seller.supports[0].type]"></span>
           <span class="text thin">{{seller.supports[0].description}}</span>
         </div>
@@ -34,19 +34,14 @@
           <div class="star-wrapper">
             <star :size="48" :score="seller.score"></star>
           </div>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text blod">优惠信息</div>
-            <div class="line"></div>
-          </div>
-          <ul v-if="seller.supports" class="supports">
-            <li class="support-item" v-for="item in seller.supports"><span class="icon inline-block" :class="classMap[seller.supports[$index].type]"></span><span class="text">{{seller.supports[$index].description}}</span></li>
+          <divider :info="'优惠信息'"></divider>
+          <ul v-if="seller.supports" class="supports-wrapper">
+            <li class="support-item" v-for="item in seller.supports">
+              <span class="icon inline-block" :class="classMap[seller.supports[$index].type]"></span>
+              <span class="text thin">{{seller.supports[$index].description}}</span>
+            </li>
           </ul>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text blod">商家公告</div>
-            <div class="line"></div>
-          </div>
+          <divider :info="'商家公告'"></divider>
           <div class="bulletin">
             <p class="content">{{seller.bulletin}}</p>
           </div>
@@ -60,6 +55,7 @@
 </template>
 <script type="text/ecmascript-6">
 import star from 'components/star/star'
+import divider from 'components/divider/divider'
 export default {
   props: {
     seller: {
@@ -83,12 +79,13 @@ export default {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
   components: {
-    star
+    star,
+    divider
   }
 }
 </script>
 <style lang="less" style="text/less">
-@import "../../static/css/index.less";
+@import (reference) "../../static/css/index.less";
 .header {
   position: relative;
   overflow: hidden;
@@ -121,38 +118,22 @@ export default {
           font-size: 16px;
         }
       }
-      .description,
-      .supports {
-        line-height: 12px;
-      }
       .description {
         margin-bottom: 10px;
         font-size: 12px;
+        line-height: 12px;
       }
-      .supports {
+      .support-item {
         display: inline-flex;
-        align-items: center;
-        font-size: 10px;
         .icon {
           margin-right: 4px;
           width: 14px;
           height: 14px;
           background-size: 14px;
-          &.decrease {
-            .bg-images('../../components/header/decrease_1');
-          }
-          &.discount {
-            .bg-images('../../components/header/discount_1');
-          }
-          &.guarantee {
-            .bg-images('../../components/header/guarantee_1');
-          }
-          &.invoice {
-            .bg-images('../../components/header/invoice_1');
-          }
-          &.special {
-            .bg-images('../../components/header/special_1');
-          }
+        }
+        .text {
+          font-size: 10px;
+          line-height: 12px;
         }
       }
     }
@@ -248,31 +229,14 @@ export default {
           padding: 2px 0;
           text-align: center;
         }
-        .title {
-          display: flex;
-          width: 80%;
-          margin: 28px auto 24px;
-          .line {
-            flex: 1;
-            position: relative;
-            top: -6px;
-            border-bottom: 1px solid rgba(255, 255, 255, .2)
-          }
-          .text {
-            padding: 0 12px;
-            font-size: 14px;
-          }
-        }
-        .supports {
+        .supports-wrapper {
           width: 80%;
           margin: 0 auto;
           .support-item {
             display: flex;
             align-items: center;
-            text-align: center;
             padding: 0 12px;
             margin-bottom: 12px;
-            font-size: 0;
             &:last-child {
               margin-bottom: 0;
             }
@@ -281,24 +245,10 @@ export default {
               width: 16px;
               height: 16px;
               background-size: 16px;
-              &.decrease {
-                .bg-images('../../components/header/decrease_1');
-              }
-              &.discount {
-                .bg-images('../../components/header/discount_1');
-              }
-              &.guarantee {
-                .bg-images('../../components/header/guarantee_1');
-              }
-              &.invoice {
-                .bg-images('../../components/header/invoice_1');
-              }
-              &.special {
-                .bg-images('../../components/header/special_1');
-              }
             }
             .text {
               font-size: 12px;
+              line-height: 12px;
             }
           }
         }
@@ -319,6 +269,27 @@ export default {
       width: 32px;
       height: 32px;
       font-size: 32px;
+    }
+  }
+  .support-item {
+    align-items: center;
+    font-size: 0;
+    .icon {
+      &.decrease {
+        .bg-images('../../components/header/decrease_1');
+      }
+      &.discount {
+        .bg-images('../../components/header/discount_1');
+      }
+      &.guarantee {
+        .bg-images('../../components/header/guarantee_1');
+      }
+      &.invoice {
+        .bg-images('../../components/header/invoice_1');
+      }
+      &.special {
+        .bg-images('../../components/header/special_1');
+      }
     }
   }
 }
