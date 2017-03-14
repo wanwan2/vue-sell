@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" v-el:menu-wrapper>
       <ul>
-        <li v-for="item in goods" class="menu-item table" :class="{'current':currentIndex === $index}">
+        <li v-for="item in goods" class="menu-item table" :class="{'current':currentIndex === $index}" @click="selectMenu($index,$event)">
           <span class="text table-cell">
           <span v-show="item.type>0" class="icon inline-block" :class="classMap[item.type]"></span>{{item.name}}
           </span>
@@ -31,10 +31,12 @@
         </li>
       </ul>
     </div>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
+import shopcart from 'components/shopcart/shopcart'
 const ERR_OK = 0
 export default {
   props: {
@@ -51,15 +53,14 @@ export default {
   },
   computed: {
     currentIndex() {
-      for (let i = 0; i < this.listHeight.length; i++) {
+      for (var i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i]
         let height2 = this.listHeight[i + 1]
         if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
           return i
-        } else {
-          return 0
         }
       }
+      return 0
     }
   },
   created() {
@@ -76,8 +77,18 @@ export default {
     })
   },
   methods: {
+    selectMenu(index, event) {
+      if (!event._constructed) {
+        return
+      }
+      let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook')
+      let el = foodList[index]
+      this.foodsScroll.scrollToElement(el, 300)
+    },
     _initScroll() {
-      this.menuScroll = new BScroll(this.$els.menuWrapper, {})
+      this.menuScroll = new BScroll(this.$els.menuWrapper, {
+        click: true
+      })
       this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
         probeType: 3
       })
@@ -93,9 +104,11 @@ export default {
         let item = foodList[i]
         height += item.clientHeight
         this.listHeight.push(height)
-        console.log(this.listHeight)
       }
     }
+  },
+  components: {
+    shopcart
   }
 }
 </script>
