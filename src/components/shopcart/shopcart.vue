@@ -3,16 +3,16 @@
     <div class="content" @click="toggleList">
       <div class="content-left">
         <div class="logo-wrapper inline-block">
-          <div class="logo" :class="{'heightlight':totalCount>0}">
-            <span class="icon-shopping_cart" :class="{'heightlight':totalCount>0}"></span>
+          <div class="logo" :class="{'highlight':totalCount>0}">
+            <span class="icon-shopping_cart" :class="{'highlight':totalCount>0}"></span>
           </div>
           <div class="num text-center" v-show="totalCount>0">{{totalCount}}</div>
         </div>
-        <div class="price inline-block blod" :class="{'heightlight':totalPrice>0}">￥{{totalPrice}}元</div>
+        <div class="price inline-block blod" :class="{'highlight':totalPrice>0}">￥{{totalPrice}}元</div>
         <div class="desc inline-block">另需配送费￥{{deliveryPrice}}元</div>
       </div>
       <div class="content-right text-center">
-        <div class="pay blod" :class="payClass">{{payDesc}}</div>
+        <div class="pay bold" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
     <div class="ball-container">
@@ -22,7 +22,7 @@
     </div>
     <div class="shopcart-list" v-show="listShow" transition="fold">
       <div class="list-header clearfix">
-        <div class="title fl">购物车</div>
+        <h1 class="title fl">购物车</h1>
         <span class="empty fr">清空</span>
       </div>
       <div class="list-content">
@@ -30,7 +30,7 @@
           <li class="food" v-for="food in selectFoods">
             <span class="name">{{food.name}}</span>
             <div class="price">
-              <span class="blod">￥{{food.price*food.count}}</span>
+              <span class="bold">￥{{food.price*food.count}}</span>
             </div>
             <div class="cartcontrol-wrapper">
               <cartcontrol :food="food"></cartcontrol>
@@ -148,13 +148,13 @@ export default {
           let ball = this.balls[count]
           if (ball.show) {
             let rect = ball.el.getBoundingClientRect()
-            let x = -rect.left - 32
+            let x = rect.left - 32
             let y = -(window.innerHeight - rect.top - 22)
             el.style.display = ''
-            el.style.webKitTransform = `translate3d(0,${y}px,0)`
-            el.style.transform = `translate3d(0,${y}px,0})`
+            el.style.webkitTransform = `translate3d(0,${y}px,0)`
+            el.style.transform = `translate3d(0,${y}px,0)`
             let inner = el.getElementsByClassName('inner-hook')[0]
-            inner.style.webKitTransform = `translate3d(${x}px,0,0)`
+            inner.style.webkitTransform = `translate3d(${x}px,0,0)`
             inner.style.transform = `translate3d(${x}px,0,0)`
           }
         }
@@ -163,10 +163,10 @@ export default {
         /* eslint-disable no-unused-vars */
         let rf = el.offsetHeight
         this.$nextTick(() => {
-          el.style.webKitTransform = 'translate3d(0,0,0)'
-          el.style.transform = 'translate3d(0,0,0})'
+          el.style.webkitTransform = 'translate3d(0,0,0)'
+          el.style.transform = 'translate3d(0,0,0)'
           let inner = el.getElementsByClassName('inner-hook')[0]
-          inner.style.webKitTransform = 'translate3d(0,0,0)'
+          inner.style.webkitTransform = 'translate3d(0,0,0)'
           inner.style.transform = 'translate3d(0,0,0)'
         })
       },
@@ -195,12 +195,11 @@ export default {
   z-index: 20;
   .content {
     display: flex;
-    height: 100%;
     background: #141d27;
     .content-left {
       flex: 1;
-      font-size: 0;
       .logo-wrapper {
+        vertical-align: top;
         position: relative;
         top: -10px;
         margin: 0 12px;
@@ -209,22 +208,21 @@ export default {
         height: 56px;
         box-sizing: border-box;
         border-radius: 50%;
-        vertical-align: top;
         background: #141d27;
         .logo {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          background: #2b343c;
           text-align: center;
-          &.heightlight {
+          background: #2b343c;
+          &.highlight {
             background: rgb(0, 160, 220);
           }
           .icon-shopping_cart {
-            font-size: 24px;
             line-height: 44px;
+            font-size: 24px;
             color: #80858a;
-            &.heightlight {
+            &.highlight {
               color: #fff;
             }
           }
@@ -254,15 +252,13 @@ export default {
         padding-right: 12px;
         border-right: 1px solid rgba(255, 255, 255, .1);
         font-size: 16px;
-        color: rgba(255, 255, 255, .4);
-        &.heightlight {
+        &.highlight {
           color: #fff;
         }
       }
       .desc {
         margin: 12px 0 0 12px;
         font-size: 10px;
-        color: rgba(255, 255, 255, .4);
       }
     }
     .content-right {
@@ -274,11 +270,10 @@ export default {
         font-size: 12px;
         &.not-enough {
           background: #2b333b;
-          color: rgba(255, 255, 255, .4);
         }
         &.enough {
           background: #00b43c;
-          color: rgb(255, 255, 255);
+          color: #fff;
         }
       }
     }
@@ -303,8 +298,8 @@ export default {
   }
   .shopcart-list {
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     z-index: -1;
     width: 100%;
     &.fold-transition {
@@ -320,14 +315,14 @@ export default {
       line-height: 40px;
       padding: 0 18px;
       background: #f3f5f7;
-      .border-1px(rgb(7, 17, 27));
+      .border-1px(rgba(7, 17, 27,.1));
       .title {
         font-size: 14px;
         color: rgb(7, 17, 27);
       }
       .empty {
         font-size: 12px;
-        color: rgb(0, 160, 200);
+        color: rgb(0, 160, 220);
       }
     }
     .list-content {

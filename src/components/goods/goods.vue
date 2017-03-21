@@ -14,7 +14,7 @@
         <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item" @click="selectFood(food,$event)">
+            <li v-for="food in item.foods" class="food-item">
               <div class="icon"><img width="57" height="57" :src="food.icon"></div>
               <div class="content">
                 <h2 class="name bold">{{food.name}}</h2>
@@ -264,7 +264,7 @@ export default {
         }
         .cartcontrol-wrapper {
           position: absolute;
-          right: 0px;
+          right: 0;
           bottom: 12px;
         }
       }

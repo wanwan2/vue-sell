@@ -71,7 +71,7 @@ export default {
     }
     &.move-transition {
       opacity: 1;
-      transform: translate3D(0, 0, 0);
+      transform: translate3d(0, 0, 0);
       .inner {
         transition: all .4s linear;
         transform: rotate(0);
@@ -80,7 +80,7 @@ export default {
     &.move-enter,
     &.move-leave {
       opacity: 0;
-      transform: translate3D(24px, 0, 0);
+      transform: translate3d(24px, 0, 0);
       .inner {
         transform: rotate(180deg);
       }
