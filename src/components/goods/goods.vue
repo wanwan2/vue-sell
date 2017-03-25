@@ -14,7 +14,7 @@
         <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item">
+            <li v-for="food in item.foods" class="food-item" @click="selectFood(food,$event)">
               <div class="icon"><img width="57" height="57" :src="food.icon"></div>
               <div class="content">
                 <h2 class="name bold">{{food.name}}</h2>
@@ -22,9 +22,7 @@
                 <div class="extra">
                   <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
                 </div>
-                <div class="price">
-                  <span class="now bold">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                </div>
+                <price :food="food"></price>
                 <div class="cartcontrol-wrapper">
                   <cartcontrol :food="food"></cartcontrol>
                 </div>
@@ -36,11 +34,14 @@
     </div>
     <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
+  <food :food="selectedFood" v-ref:food></food>
 </template>
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
 import shopcart from 'components/shopcart/shopcart'
 import cartcontrol from 'components/cartcontrol/cartcontrol'
+import food from 'components/food/food'
+import price from 'components/price/price'
 
 const ERR_OK = 0
 export default {
@@ -102,6 +103,13 @@ export default {
       let el = foodList[index]
       this.foodsScroll.scrollToElement(el, 300)
     },
+    selectFood(food, event) {
+      if (!event._constructed) {
+        return
+      }
+      this.selectedFood = food
+      this.$refs.food.show()
+    },
     _drop(target) {
       // 体验优化，异步执行下落动画
       this.$nextTick(() => {
@@ -133,7 +141,9 @@ export default {
   },
   components: {
     shopcart,
-    cartcontrol
+    cartcontrol,
+    food,
+    price
   },
   events: {
     'cart.add' (target) {
@@ -248,19 +258,6 @@ export default {
         .extra {
           font-size: 10px;
           color: rgb(147, 153, 159);
-        }
-        .price {
-          line-height: 24px;
-          .now {
-            margin-right: 8px;
-            font-size: 14px;
-            color: rgb(240, 20, 20);
-          }
-          .old {
-            text-decoration: line-through;
-            font-size: 10px;
-            color: rgb(147, 153, 159);
-          }
         }
         .cartcontrol-wrapper {
           position: absolute;

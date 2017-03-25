@@ -11,7 +11,7 @@
         <div class="price inline-block blod" :class="{'highlight':totalPrice>0}">￥{{totalPrice}}元</div>
         <div class="desc inline-block">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content-right text-center">
+      <div class="content-right text-center" @click.stop.prevent="pay">
         <div class="pay bold" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
@@ -23,9 +23,9 @@
     <div class="shopcart-list" v-show="listShow" transition="fold">
       <div class="list-header clearfix">
         <h1 class="title fl">购物车</h1>
-        <span class="empty fr">清空</span>
+        <span class="empty fr" @click="empty">清空</span>
       </div>
-      <div class="list-content">
+      <div class="list-content" v-el:list-content>
         <ul>
           <li class="food" v-for="food in selectFoods">
             <span class="name">{{food.name}}</span>
@@ -40,8 +40,10 @@
       </div>
     </div>
   </div>
+  <div class="list-mask" @click="hideList" v-show="listShow" transition="fade"></div>
 </template>
 <script type="text/ecmascript-6">
+import BScroll from 'better-scroll'
 import cartcontrol from 'components/cartcontrol/cartcontrol'
 export default {
   props: {
@@ -118,6 +120,17 @@ export default {
         return false
       }
       let show = !this.fold
+      if (show) {
+        this.$nextTick(() => {
+          if (!this.scroll) {
+            this.scroll = new BScroll(this.$els.listContent, {
+              click: true
+            })
+          } else {
+            this.scroll.refresh()
+          }
+        })
+      }
       return show
     }
   },
@@ -138,6 +151,20 @@ export default {
         return
       }
       this.fold = !this.fold
+    },
+    empty() {
+      this.selectFoods.forEach((food) => {
+        food.count = 0
+      })
+    },
+    hideList() {
+      this.fold = true
+    },
+    pay() {
+      if (this.totalPrice < this.minPrice) {
+        return
+      }
+      window.alert(`支付${this.totalPrice}元`)
     }
   },
   transitions: {
@@ -245,6 +272,7 @@ export default {
       .desc {
         vertical-align: top;
         line-height: 24px;
+        color: #80858a;
       }
       .price {
         margin-top: 12px;
@@ -270,6 +298,7 @@ export default {
         font-size: 12px;
         &.not-enough {
           background: #2b333b;
+          color: #80858a;
         }
         &.enough {
           background: #00b43c;
@@ -315,7 +344,7 @@ export default {
       line-height: 40px;
       padding: 0 18px;
       background: #f3f5f7;
-      .border-1px(rgba(7, 17, 27,.1));
+      .border-1px(rgba(7, 17, 27, .1));
       .title {
         font-size: 14px;
         color: rgb(7, 17, 27);
@@ -355,6 +384,26 @@ export default {
         bottom: 6px;
       }
     }
+  }
+}
+
+.list-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  filter: blur(10px);
+  &.fade-transition {
+    opacity: 1;
+    background: rgba(7, 17, 27, .6);
+    transition: all .5s;
+  }
+  &.fade-enter,
+  &.fade-leave {
+    opacity: 0;
+    background: rgba(7, 17, 27, 0);
   }
 }
 </style>
