@@ -3,7 +3,7 @@
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left text-center">
-          <h1 class="score">{{seller.score}}</h1>
+          <h1 class="score inline-block">{{seller.score}}</h1>
           <div class="title">综合评分</div>
           <div class="rank">高于周边商家{{seller.rankRate}}%</div>
         </div>
@@ -11,32 +11,46 @@
           <div class="score-wrapper">
             <span class="title">服务态度</span>
             <star :size="36" :score="seller.serviceScore"></star>
-            <span class="score">{{seller.serviceScore}}分</span>
+            <span class="score">{{seller.serviceScore}}</span>
           </div>
           <div class="score-wrapper">
-          	<span class="title">商品评分</span>
+            <span class="title">商品评分</span>
             <star :size="36" :score="seller.foodScore"></star>
-            <span class="score">{{seller.foodScore}}分</span>
+            <span class="score inline-block">{{seller.foodScore}}</span>
           </div>
           <div class="delivery-wrapper">
-          	<span class="title">送达时间</span>
-            <span class="delivery">{{seller.deliveryTime}}分</span>
+            <span class="title">送达时间</span>
+            <span class="delivery">{{seller.deliveryTime}}分钟</span>
           </div>
         </div>
       </div>
+      <split></split>
+      <ratingselect :selectType="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
     </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import star from 'components/star/star'
+import split from 'components/split/split'
+import ratingselect from 'components/ratingselect/ratingselect'
+const ALL = 2
 export default {
   props: {
     seller: {
       type: Object
     }
   },
+  data() {
+    return {
+      showFlag: false,
+      selectType: ALL,
+      onlyContent: true
+    }
+  },
   components: {
-    star
+    star,
+    split,
+    ratingselect
   }
 }
 </script>
@@ -56,6 +70,10 @@ export default {
       flex: 0 0 137px;
       padding: 6px 0;
       border-right: 1px solid rgba(7, 17, 27, .1);
+      @media only screen and (max-width: 320px) {
+        flex: 0 0 120px;
+        width: 120px;
+      }
       .score {
         margin-bottom: 6px;
         line-height: 28px;
@@ -76,7 +94,44 @@ export default {
     }
     .overview-right {
       flex: 1;
-      padding-left: 24px;
+      padding: 6px 0 6px 24px;
+      @media only screen and (max-width: 320px) {
+        padding-left: 6px;
+      }
+      .score-wrapper {
+        margin-bottom: 8px;
+      }
+      .score-wrapper,
+      .delivery-wrapper {
+        line-height: 18px;
+        font-size: 0;
+        .title,
+        .star,
+        .score,
+        .delivery {
+          vertical-align: top;
+        }
+        .title,
+        .score,
+        .delivery {
+          font-size: 12px;
+          line-height: 18px;
+        }
+        .title {
+          color: rgb(7, 17, 27);
+        }
+        .star {
+          margin: 0 12px;
+          display: inline-block;
+        }
+        .score {
+          color: rgb(255, 153, 0);
+        }
+        .delivery {
+          margin-left: 12px;
+          color: rgb(147, 153, 159);
+        }
+      }
     }
   }
 }
