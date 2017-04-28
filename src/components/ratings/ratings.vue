@@ -1,5 +1,5 @@
 <template>
-  <div class="ratings">
+  <div class="ratings" v-el:ratings>
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left text-center">
@@ -25,15 +25,42 @@
         </div>
       </div>
       <split></split>
-      <ratingselect :selectType="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+      <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="ratings"></ratingselect>
+      <div class="rating-wrapper">
+        <ul>
+          <li v-for="rating in ratings" class="rating-item" v-show="needShow(rating.rateType,rating.text)">
+            <div class="avatar">
+              <img width="28" height="28" :src="rating.avatar">
+            </div>
+            <div class="content">
+              <div class="name">{{rating.username}}</div>
+              <div class="star-wrapper">
+                <star class="inline-block" :size="24" :score="rating.score"></star>
+                <span class="delivery inline-block" v-show="rating.deliveryTime">{{rating.deliveryTime}}</span>
+              </div>
+              <p class="text">{{rating.text}}</p>
+              <div class="recommend" v-show="rating.recommend && rating.recommend.length">
+                <span class="icon-thumb_up inline-block"></span>
+                <span class="item inline-block" v-for="item in rating.recommend">{{item}}</span>
+              </div>
+              <div class="time">{{rating.rateTime | formatDate}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
+import {
+  formatDate
+} from 'static/js/formatDate'
+import BScroll from 'better-scroll'
 import star from 'components/star/star'
 import split from 'components/split/split'
 import ratingselect from 'components/ratingselect/ratingselect'
 const ALL = 2
+const ERR_OK = 0
 export default {
   props: {
     seller: {
@@ -42,9 +69,55 @@ export default {
   },
   data() {
     return {
+      ratings: [],
       showFlag: false,
       selectType: ALL,
       onlyContent: true
+    }
+  },
+  created() {
+    this.$http.get('/api/ratings').then((response) => {
+      response = response.body
+      if (response.errno === ERR_OK) {
+        this.ratings = response.data
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$els.ratings, {
+            click: true
+          })
+        })
+      }
+    })
+  },
+  methods: {
+    needShow(type, text) {
+      if (this.onlyContent && !text) {
+        return false
+      }
+      if (this.selectType === ALL) {
+        return true
+      } else {
+        return type === this.selectType
+      }
+    }
+  },
+  events: {
+    'ratingtype.select' (type) {
+      this.selectType = type
+      this.$nextTick(() => {
+        this.scroll.refresh()
+      })
+    },
+    'content.toggle' (onlyContent) {
+      this.onlyContent = onlyContent
+      this.$nextTick(() => {
+        this.scroll.refresh()
+      })
+    }
+  },
+  filters: {
+    formatDate(time) {
+      let date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
     }
   },
   components: {
@@ -131,6 +204,77 @@ export default {
           margin-left: 12px;
           color: rgb(147, 153, 159);
         }
+      }
+    }
+  }
+  .rating-wrapper {
+    padding: 0 18px;
+    .rating-item {
+      display: flex;
+      padding: 18px 0;
+      .border-1px(rgba(7, 17, 27, .1));
+    }
+    .avatar {
+      flex: 0 0 28px;
+      margin-right: 12px;
+      img {
+        width: 28px;
+        border-radius: 50%;
+      }
+    }
+    .content {
+      position: relative;
+      flex: 1;
+      .name {
+        margin-bottom: 4px;
+        line-height: 12px;
+        font-size: 10px;
+        color: rgb(7, 17, 27);
+      }
+      .star-wrapper {
+        margin-bottom: 6px;
+        font-size: 0;
+        .star {
+          margin-right: 6px;
+          vertical-align: top;
+        }
+        .delivery {
+          vertical-align: top;
+          color: rgb(147, 153, 159);
+        }
+      }
+      .text {
+        margin-bottom: 8px;
+        line-height: 18px;
+        color: rgb(7, 17, 27);
+        font-size: 12px;
+      }
+      .recommend {
+        line-height: 16px;
+        font-size: 0;
+        .icon-thumb_up,
+        .item {
+          margin: 0 8px 4px 0;
+          font-size: 9px;
+        }
+        .icon-thumb_up {
+          color: rgb(0, 160, 220);
+        }
+        .item {
+          padding: 0 6px;
+          border: 1px solid rgba(7, 17, 27, .1);
+          border-radius: 1px;
+          color: rgb(147, 153, 159);
+          background: #fff;
+        }
+      }
+      .time {
+        position: absolute;
+        top: 0;
+        right: 0;
+        line-height: 12px;
+        color: rgb(147, 153, 159);
+        font-size: 9px;
       }
     }
   }

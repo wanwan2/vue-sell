@@ -20,7 +20,7 @@
                 <h2 class="name bold">{{food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
-                  <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
+                  <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</shpan>
                 </div>
                 <price :food="food"></price>
                 <div class="cartcontrol-wrapper">
@@ -225,7 +225,7 @@ export default {
       display: flex;
       margin: 18px;
       padding-bottom: 18px;
-      &:not(: last-child) {
+      &:not(:last-child) {
         .border-1px(rgba(7, 17, 27, .1));
       }
       &:last-child {
